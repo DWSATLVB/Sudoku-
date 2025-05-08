@@ -1,0 +1,13 @@
+# Build directories
+/build/
+cmake-build-*/
+*.o
+*.exe
+*.dll
+*.so
+*.a
+
+# Qt auto-generated files
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
