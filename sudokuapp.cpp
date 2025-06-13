@@ -3,7 +3,8 @@
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
+#include <algorithm>
+#include <random>    
 SudokuApp::SudokuApp(QWidget *parent) : QMainWindow(parent) {
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -95,6 +96,7 @@ void SudokuApp::showResult(bool isValid) {
         this->close();
         SudokuApp *app = new SudokuApp();
         app->show();
+        this->deleteLater(); // Schedule deletion of the current window
     });
     hbox->addWidget(playAgain);
 
@@ -104,4 +106,32 @@ void SudokuApp::showResult(bool isValid) {
 
     vbox->addLayout(hbox);
     resultDialog->exec();
+}
+
+// Generate a full Sudoku grid
+Grid SudokuApp::generateFullSudoku() {
+    Grid grid(9, QVector<int>(9, 0));
+    return grid; 
+}
+
+std::pair<Grid, QVector<int>> SudokuApp::removeCells(const Grid& fullGrid) {
+    Grid puzzle = fullGrid;
+    QVector<int> emptyIndices;
+
+    std::vector<int> indices(81);
+    std::iota(indices.begin(), indices.end(), 0); 
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(indices.begin(), indices.end(), g);
+
+    int cellsToRemove = 40;
+    for (int i = 0; i < cellsToRemove; ++i) {
+        int idx = indices[i];
+        int row = idx / 9;
+        int col = idx % 9;
+        puzzle[row][col] = 0;
+        emptyIndices.append(idx);
+    }
+
+    return {puzzle, emptyIndices};
 }
