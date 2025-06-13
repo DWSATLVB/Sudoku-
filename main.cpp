@@ -25,6 +25,7 @@ int main(int argc, char *argv[]) {
         startWindow.hide();
         SudokuApp *game = new SudokuApp();
         game->show();
+        startWindow.deleteLater();
     });
 
     QPushButton *exitButton = new QPushButton("Exit", &startWindow);
