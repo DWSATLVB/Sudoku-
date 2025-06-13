@@ -8,6 +8,8 @@
 #include <QGridLayout>
 #include <QVector>
 
+using Grid = QVector<QVector<int>>;
+
 class SudokuApp : public QMainWindow {
     Q_OBJECT
 
@@ -26,6 +28,9 @@ private:
 
     bool validateUserInput();
     void showResult(bool isValid);
+
+    Grid generateFullSudoku();
+    std::pair<Grid, QVector<int>> removeCells(const Grid& fullGrid);
 };
 
 #endif // SUDOKUAPP_H
